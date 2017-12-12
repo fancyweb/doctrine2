@@ -58,7 +58,11 @@ class Parameter
      */
     public function __construct($name, $value, $type = null)
     {
-        $this->name = trim($name, ':');
+        if (preg_match('/^:|:$/', $name)) {
+            throw new \InvalidArgumentException('A parameter name cannot start or end with ":".');
+        }
+
+        $this->name = $name;
 
         $this->setValue($value, $type);
     }
